@@ -1,0 +1,8 @@
+django
+gunicorn
+django-heroku
+requests
+pillow
+whitenoise
+uuid
+django-allauth
