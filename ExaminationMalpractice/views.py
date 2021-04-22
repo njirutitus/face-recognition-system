@@ -34,11 +34,16 @@ def login_user(request):
             return render(request, 'ExaminationMalpractice/login.html', {'error_message': 'Invalid login'})
     return render(request, 'ExaminationMalpractice/login.html')
 
+def verify(request):
+    if request.method == "POST":
+        photo = request.POST.get("photo", False)
+    return render(request, 'ExaminationMalpractice/verify.html')
+
 def home(request):
     if not request.user.is_authenticated:
         return redirect('/')
     else:
-        return render(request, 'ExaminationMalpractice/index.html')
+        return render(request, 'ExaminationMalpractice/home.html')
 
 def password_reset(request):
     if request.method == 'POST':
@@ -52,3 +57,7 @@ def password_reset(request):
         else:
             return render(request,'ExaminationMalpractice/reset_password.html',{ 'error':'Email not registered'})
     return render(request, 'ExaminationMalpractice/reset_password.html')
+
+def logout_user(request):
+    logout(request)
+    return redirect('/')
