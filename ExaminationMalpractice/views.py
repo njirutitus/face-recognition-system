@@ -5,6 +5,9 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import update_session_auth_hash
 from django.conf import settings
+from django.core.mail import send_mail
+
+from .models import User
 
 # Create your views here.
 
@@ -36,3 +39,16 @@ def home(request):
         return redirect('/')
     else:
         return render(request, 'ExaminationMalpractice/index.html')
+
+def password_reset(request):
+    if request.method == 'POST':
+        user = User.objects.filter(email=request.POST['email'])
+        if(user):
+            subject = 'Welcome to Face Recognition System'
+            message = 'Hope you are enjoying The services we are offering'
+            recepient = str(request.POST['email'])
+            # send_mail(subject,message, settings.EMAIL_HOST_USER, [recepient], fail_silently = False)
+            return render(request,'ExaminationMalpractice/reset_password.html',{ 'success':'Check your email for further instructions'})
+        else:
+            return render(request,'ExaminationMalpractice/reset_password.html',{ 'error':'Email not registered'})
+    return render(request, 'ExaminationMalpractice/reset_password.html')
